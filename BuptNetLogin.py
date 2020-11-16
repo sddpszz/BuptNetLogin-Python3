@@ -25,12 +25,13 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-Getway_IP = "http://10.3.8.211/login" # 校园网网关 ip 地址 或换成"http://gw.bupt.edu.cn/login"
-Check_URL = "http://www.baidu.com"    # 用以检测是否可以连接到外网
+Getway_IP = "http://10.3.8.211/login"   # 校园网网关登录地址 或换成"http://gw.bupt.edu.cn/login"
+LogOut_URL = "http://10.3.8.211/logout" # 校园网网关登出地址 或换成"http://gw.bupt.edu.cn/logout"
+Check_URL = "http://www.baidu.com"      # 用以检测是否可以连接到外网
 headers = {
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'}
-username = "2020000000"               # 请改成自己的学工号
-password = "********"                 # 请改成自己的校园网密码
+username = "2020123456"                     # 请改成自己的学工号
+password = "You'll_never_guess_my_password" # 请改成自己的校园网密码
 
 
 def main():
@@ -68,5 +69,20 @@ def login(username, password):
     res = requests.post(Getway_IP, headers=headers, params=params)
     logging.debug(res.text)
     return(res)
+def logout():
+    res = requests.get(LogOut_URL, headers=headers, allow_redirects=False)
+    logging.debug(res.text)
+    return(res)
 
 main()
+
+# # 测试登出
+# if logout().status_code == 302: # 登出后会重定向
+#     logging.info("登出成功！")
+# else:
+#     logging.error("登出失败！")
+# # 检查一下网络看看是否确实登出
+# if check_network():
+#     logging.error("确实登出失败！")
+# else:
+#     logging.info("确实登出成功！")
